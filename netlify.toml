@@ -5,3 +5,10 @@
 # values to keep them out of your source repository. 
 [context.production]
   environment = { NODE_VERSION = "14.17.3" }
+
+[build]
+  publish = "public"
+  command = "gatsby build"
+[build.environment]
+  YARN_VERSION = "1.22.15"
+  YARN_FLAGS = "--no-ignore-optional"
