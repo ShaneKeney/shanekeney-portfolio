@@ -1862,7 +1862,7 @@ class HTML extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
       name: "viewport",
       content: "width=device-width, initial-scale=1.0"
     }), this.props.headComponents, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("link", {
-      href: "/img/favicon.ico",
+      href: "/img/favicons/coding.ico",
       rel: "icon"
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("body", {
       style: {

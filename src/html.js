@@ -10,7 +10,7 @@ export default class HTML extends React.Component {
             content="width=device-width, initial-scale=1.0"
           />
           {this.props.headComponents}
-          <link href="/img/favicon.ico" rel="icon" />
+          <link href="/img/favicons/coding.ico" rel="icon" />
         </head>
         <body style={{ padding: '0px !important' }} className="no-overflow">
           <div

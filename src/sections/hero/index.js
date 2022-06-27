@@ -5,9 +5,15 @@ import { Row, Col } from 'react-bootstrap'
 import Glitch from 'components/glitch'
 import Typewriter from 'typewriter-effect'
 import ThemeContext from '../../context'
+import Pdf from '../../../public/pdf/TechnicalLead.pdf'
+
 class Hero extends React.Component {
 
   static contextType = ThemeContext
+
+  onDownloadCVClick() {
+    window.open(Pdf);
+  }
 
   render() {
     return (
@@ -34,7 +40,7 @@ class Hero extends React.Component {
                   loop: true,
                 }}
               />
-              <button className="hover-button">
+              <button className="hover-button" onClick={this.onDownloadCVClick}>
                   <span>Download CV</span>
               </button>
             </div>
