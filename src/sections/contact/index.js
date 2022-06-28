@@ -5,6 +5,7 @@ import AnimationContainer from 'components/animation-container'
 import BaffleText from 'components/baffle-text'
 import ThemeContext from '../../context'
 import axios from 'axios'
+import Snackbar from '@mui/material/Snackbar';
 
 class Contact extends React.Component {
     constructor(props) {
@@ -34,18 +35,20 @@ class Contact extends React.Component {
         }
     }
 
-    submit() {
+    async submit() {
         if (this.state.name === "" || this.state.email === "" || this.state.message === "") {
             this.setState({error: true})
         } else {
             this.setState({error: false})
 
-            axios.post('http://localhost:3000/api/contact', { 
+            const result = await axios.post('https://sck-portfolio-mailer.herokuapp.com/api/contact', { 
                 name: this.state.name,
                 email: this.state.email,
                 phone: this.state.phone,
                 message: this.state.message
             })
+
+            console.log(result)
         }
     }
     render() {
