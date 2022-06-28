@@ -6,6 +6,14 @@ import BaffleText from 'components/baffle-text'
 import ThemeContext from '../../context'
 import axios from 'axios'
 import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 class Contact extends React.Component {
     constructor(props) {
@@ -16,7 +24,11 @@ class Contact extends React.Component {
             phone: "",
             message: "",
             error: false,
-            show: false
+            show: false,
+            emailResponse: {
+                statusCode: null,
+                message: ""
+            }
         }
         this.show = this.show.bind(this)
     }
@@ -29,7 +41,7 @@ class Contact extends React.Component {
 
     check(val) {
         if (this.state.error && val === "") {
-                return false
+            return false
         } else {
             return true
         }
@@ -48,12 +60,40 @@ class Contact extends React.Component {
                 message: this.state.message
             })
 
-            console.log(result)
+            console.log(result.status)
+            this.setState({
+                // Reset form if the contact email was sent successfully
+                name: result.status === 201 ? "" : this.state.name,
+                email: result.status === 201 ? "" : this.state.email,
+                phone: result.status === 201 ? "" : this.state.phone,
+                message: result.status === 201 ? "" : this.state.message,
+                emailResponse: { statusCode: result.status, message: result.data.message }
+            })
         }
     }
+
+    handleClose(event, reason) {
+        this.setState({
+            emailResponse: { statusCode: null, message: "" }
+        })
+    }
+
+    showAlertStyle() {
+        if(this.state.emailResponse.statusCode === 201) return "success"
+        return "error"
+    }
+
     render() {
         return (
             <section id={`${this.props.id}`} className="contact" style={{height: this.context.height}}>
+                { 
+                    <Snackbar open={!!this.state.emailResponse.statusCode} autoHideDuration={5000} onClose={(e) => this.handleClose()}>
+                        <Alert onClose={() => this.handleClose()} severity={this.showAlertStyle()} sx={{ width: '100%' }}>
+                            {this.state.emailResponse.message}
+                        </Alert>
+                    </Snackbar>
+                }
+
                 <Row>
                     <Col md={2} className="side">
                         <h2>
@@ -80,22 +120,22 @@ class Contact extends React.Component {
                         <h4>Get In Touch</h4>
                         <AnimationContainer delay={50} animation="fadeInUp fast">
                             <div className="form-group">
-                                <input type="text" className={`name ${this.check(this.state.name) ? "" : "error"}`} placeholder="Name" onChange={e => this.setState({name: e.target.value})} />
+                                <input type="text" className={`name ${this.check(this.state.name) ? "" : "error"}`} placeholder="Name" onChange={e => this.setState({name: e.target.value})} value={this.state.name} />
                             </div>
                         </AnimationContainer>
                         <AnimationContainer delay={100} animation="fadeInUp fast">
                         <div className="form-group">
-                            <input type="text" className={`email ${this.check(this.state.email) ? "" : "error"}`} placeholder="Email" onChange={e => this.setState({email: e.target.value})} />
+                            <input type="text" className={`email ${this.check(this.state.email) ? "" : "error"}`} placeholder="Email" onChange={e => this.setState({email: e.target.value})} value={this.state.email} />
                         </div>
                         </AnimationContainer>
                         <AnimationContainer delay={150} animation="fadeInUp fast">
                             <div className="form-group">
-                                <input type="text" className="phone" placeholder="Phone" onChange={e => this.setState({phone: e.target.value})} />
+                                <input type="text" className="phone" placeholder="Phone" onChange={e => this.setState({phone: e.target.value})} value={this.state.phone}/>
                             </div>
                         </AnimationContainer>
                         <AnimationContainer delay={200} animation="fadeInUp fast">
                         <div className="form-group">
-                            <textarea className={`message ${this.check(this.state.message) ? "" : "error"}`} placeholder="Message" onChange={e => this.setState({message: e.target.value})}></textarea>
+                            <textarea className={`message ${this.check(this.state.message) ? "" : "error"}`} placeholder="Message" onChange={e => this.setState({message: e.target.value})} value={this.state.message}></textarea>
                         </div>
                         </AnimationContainer>
                         <AnimationContainer delay={250} animation="fadeInUp fast">
