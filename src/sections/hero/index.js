@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap'
 import Glitch from 'components/glitch'
 import Typewriter from 'typewriter-effect'
 import ThemeContext from '../../context'
-import Pdf from '../../../public/pdf/TechnicalLead.pdf'
+import Pdf from '../../../content/pdf/TechnicalLead.pdf'
 
 class Hero extends React.Component {
 
